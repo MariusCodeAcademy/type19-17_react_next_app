@@ -1,5 +1,6 @@
 import Header from '@/components/Header';
 import { Inter } from 'next/font/google';
+import Image from 'next/image';
 import { useRouter } from 'next/router';
 
 const inter = Inter({ subsets: ['latin'] });
@@ -19,7 +20,14 @@ export default function SingleRecept({ item }) {
     <>
       <Header />
       <div className='container'>
-        <img className='h-96' src={item.image} alt={item.name} />
+        <Image
+          className='h-96 object-cover'
+          width={500}
+          height={500}
+          src={item.image}
+          alt={item.name}
+        />
+        {/* <img className='h-96' src={item.image} alt={item.name} /> */}
         <h1 className='text-5xl my-4 font-semibold'>{item.name}</h1>
 
         <h2>Ingrediantai</h2>
