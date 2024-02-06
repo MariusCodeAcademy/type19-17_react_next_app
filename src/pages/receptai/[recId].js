@@ -10,7 +10,7 @@ export default function SingleRecept({ item }) {
   const router = useRouter();
   console.log('router.query ===', router.query);
   const recId = router.query.recId;
-
+  console.log('item ===', item);
   // gauti objekta su useEffect ir parsiusti cia
   // sugeneruoti html recepta
 
@@ -19,7 +19,15 @@ export default function SingleRecept({ item }) {
     <>
       <Header />
       <div className='container'>
+        <img className='h-96' src={item.image} alt={item.name} />
         <h1 className='text-5xl my-4 font-semibold'>{item.name}</h1>
+
+        <h2>Ingrediantai</h2>
+        <ul>
+          {item.ingredients.map((ing) => (
+            <li key={ing}>{ing}</li>
+          ))}
+        </ul>
       </div>
     </>
   );
