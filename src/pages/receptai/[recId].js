@@ -6,7 +6,7 @@ const inter = Inter({ subsets: ['latin'] });
 
 // /receptai/:recId
 
-export default function SingleRecept() {
+export default function SingleRecept({ item }) {
   const router = useRouter();
   console.log('router.query ===', router.query);
   const recId = router.query.recId;
@@ -19,7 +19,7 @@ export default function SingleRecept() {
     <>
       <Header />
       <div className='container'>
-        <h1 className='text-5xl my-4 font-semibold'>SingleRecept</h1>
+        <h1 className='text-5xl my-4 font-semibold'>{item.name}</h1>
       </div>
     </>
   );
@@ -60,10 +60,26 @@ export async function getStaticPaths() {
 // gauti objekta su getStaticProps
 export async function getStaticProps(context) {
   console.log('context ===', context);
+  console.log('context.params ===', context.params.recId);
+  const recId = context.params.recId;
 
+  function getData() {
+    return fetch(rUrl + '/' + recId)
+      .then((resp) => resp.json())
+      .then((singleRObj) => {
+        console.log('singleRObj ===', singleRObj);
+        return singleRObj;
+      })
+      .catch((error) => {
+        console.warn('ivyko klaida:', error);
+      });
+  }
+
+  const currentObj = await getData();
+  console.log('currentObj ===', currentObj);
   return {
     props: {
-      item: '',
+      item: currentObj,
     },
   };
 }
