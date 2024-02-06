@@ -10,18 +10,6 @@ const rUrl = 'https://dummyjson.com/recipes';
 export default function Receptai({ receptai }) {
   const [mainArr, setMainArr] = useState(receptai);
   console.log('mainArr ===', mainArr);
-  // console.log('receptai ===', receptai);
-  // useEffect(() => {
-  //   fetch(rUrl)
-  //     .then((resp) => resp.json())
-  //     .then((atsObj) => {
-  //       console.log('atsObj ===', atsObj);
-  //       setMainArr(atsObj.recipes);
-  //     })
-  //     .catch((error) => {
-  //       console.warn('ivyko klaida:', error);
-  //     });
-  // }, []);
 
   // parsiusti receptus is dummy json
   // console log
@@ -36,8 +24,10 @@ export default function Receptai({ receptai }) {
         <ul>
           {mainArr.map((rObj) => (
             <li key={rObj.id} className='border px-3 py-1 text-lg'>
-              <span className='font-semibold'>{rObj.name}</span> -{' '}
-              <span className='text-slate-500'>dificulty:</span> {rObj.difficulty}
+              <Link href={`/receptai/${rObj.id}`}>
+                <span className='font-semibold'>{rObj.name}</span> -{' '}
+                <span className='text-slate-500'>dificulty:</span> {rObj.difficulty}
+              </Link>
             </li>
           ))}
         </ul>
