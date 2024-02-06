@@ -24,14 +24,46 @@ export default function SingleRecept() {
     </>
   );
 }
+const rUrl = 'https://dummyjson.com/recipes';
+
+export async function getStaticPaths() {
+  function getData() {
+    return fetch(rUrl)
+      .then((resp) => resp.json())
+      .then((atsObj) => {
+        // console.log('atsObj ===', atsObj);
+        return atsObj.recipes;
+      })
+      .catch((error) => {
+        console.warn('ivyko klaida:', error);
+      });
+  }
+
+  const allData = await getData();
+
+  const paths = allData.map((rObj) => {
+    return {
+      params: {
+        recId: rObj.id.toString(),
+      },
+    };
+  });
+
+  console.log('paths ===', paths);
+
+  return {
+    paths,
+    fallback: false,
+  };
+}
 
 // gauti objekta su getStaticProps
-// export async function getStaticProps(context) {
-//   console.log('context ===', context);
+export async function getStaticProps(context) {
+  console.log('context ===', context);
 
-//   return {
-//     props: {
-//       item: '',
-//     },
-//   };
-// }
+  return {
+    props: {
+      item: '',
+    },
+  };
+}
