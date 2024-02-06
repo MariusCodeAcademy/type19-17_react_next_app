@@ -34,6 +34,7 @@ export default function SingleRecept({ item }) {
 }
 const rUrl = 'https://dummyjson.com/recipes';
 
+// si funkcija sugeneruoja visas galimas recId reiksmes kaip specialu parameru masyva
 export async function getStaticPaths() {
   function getData() {
     return fetch(rUrl)
