@@ -7,28 +7,28 @@ const inter = Inter({ subsets: ['latin'] });
 
 const rUrl = 'https://dummyjson.com/recipes';
 
-export default function Receptai() {
-  const [mainArr, setMainArr] = useState([]);
+export default function Receptai({ receptai }) {
+  const [mainArr, setMainArr] = useState(receptai);
   console.log('mainArr ===', mainArr);
-
-  useEffect(() => {
-    fetch(rUrl)
-      .then((resp) => resp.json())
-      .then((atsObj) => {
-        console.log('atsObj ===', atsObj);
-        setMainArr(atsObj.recipes);
-      })
-      .catch((error) => {
-        console.warn('ivyko klaida:', error);
-      });
-  }, []);
+  // console.log('receptai ===', receptai);
+  // useEffect(() => {
+  //   fetch(rUrl)
+  //     .then((resp) => resp.json())
+  //     .then((atsObj) => {
+  //       console.log('atsObj ===', atsObj);
+  //       setMainArr(atsObj.recipes);
+  //     })
+  //     .catch((error) => {
+  //       console.warn('ivyko klaida:', error);
+  //     });
+  // }, []);
 
   // parsiusti receptus is dummy json
   // console log
   // sugeneruoti saraso ar korteliu pav
   return (
     <>
-      <Header />
+      <Header item='1' />
       <div className='container'>
         <h1 className='text-5xl my-4 font-semibold'>Receptai</h1>
         <Link href={'/receptai/arhyvas'}>Arhyvas</Link>
@@ -44,4 +44,30 @@ export default function Receptai() {
       </div>
     </>
   );
+}
+
+export async function getStaticProps() {
+  function getData() {
+    return fetch(rUrl)
+      .then((resp) => resp.json())
+      .then((atsObj) => {
+        console.log('atsObj ===', atsObj);
+        return atsObj.recipes;
+      })
+      .catch((error) => {
+        console.warn('ivyko klaida:', error);
+      });
+  }
+
+  const receptai = await getData();
+  console.log(
+    'receptai ===',
+    receptai.map(({ name }) => name),
+  );
+
+  return {
+    props: {
+      receptai: receptai,
+    },
+  };
 }
